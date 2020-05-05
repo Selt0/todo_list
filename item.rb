@@ -1,3 +1,5 @@
+require 'date'
+
 class Item
 
   def self.valid_date?(date)
@@ -12,8 +14,8 @@ class Item
   attr_accessor :title, :deadline, :description
 
   def initialize(title, deadline, description)
-    @title = title
     @deadline = deadline
+    @title = title
     @description = description
   end
 
