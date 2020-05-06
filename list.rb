@@ -24,6 +24,7 @@ class List
   def add_item(title, deadline, description = '')
     return false if !Item.valid_date?(deadline)
     @items <<  Item.new(title, deadline, description)
+    true
   end
 
   def size
@@ -58,16 +59,44 @@ class List
   end
 
   def print_full_item(index)
-    item = items[index]
-    status = item.done ? CHECKMARK : ' '
+    if valid_index?(index)
+      item = items[index]
+      status = item.done ? CHECKMARK : ' '
 
-    puts '-'.ljust(LINE_WIDTH, '-')
-    puts "#{item.title.ljust(SOLO_ITEM_WIDTH)}" + "#{item.deadline} [#{status}]".rjust(SOLO_ITEM_WIDTH)
-    puts "#{item.description}"
-    puts '-'.ljust(LINE_WIDTH, '-')
+      puts '-'.ljust(LINE_WIDTH, '-')
+      puts "#{item.title.ljust(SOLO_ITEM_WIDTH)}" + "#{item.deadline} [#{status}]".rjust(SOLO_ITEM_WIDTH)
+      puts "#{item.description}"
+      puts '-'.ljust(LINE_WIDTH, '-')
+    end
   end
 
   def print_priority
     print_full_item(0)
   end
+
+  def up(index, amt = 1)
+    return false if !valid_index?(index)
+    amt.times {
+      break if index === 0
+      swap(index, index - 1)
+      index -= 1
+    }
+    true
+  end
+
+  def down(index, amt = 1)
+    return false if !valid_index?(index)
+    amt.times {
+      break if index == self.size - 1
+      swap(index, index + 1)
+      index += 1
+    }
+    true
+  end
+
+  def sort_by_date!
+    items.sort_by! { |item| item.deadline }
+  end
+
+
 end
