@@ -53,7 +53,7 @@ class List
     puts '-'.ljust(LINE_WIDTH, '-')
     items.each_with_index do |item, i|
       status = item.done ? CHECKMARK : ' '
-      puts "#{i.to_s.ljust(INDEX_COL_WIDTH)} | #{item.title.ljust(ITEM_COL_WIDTH)} | #{item.deadline.ljust(DEADLINE_COL_WIDTH)} | #{status}" 
+      puts "#{i.to_s.ljust(INDEX_COL_WIDTH)} | #{item.title.ljust(ITEM_COL_WIDTH)} | #{item.deadline.ljust(DEADLINE_COL_WIDTH)} | [#{status}]" 
     end
     puts "-".ljust(LINE_WIDTH, '-')
   end
@@ -98,5 +98,18 @@ class List
     items.sort_by! { |item| item.deadline }
   end
 
+  def toggle_item(index)
+    item = self[index]
+    item.toggle if !item.nil?
+  end
+  
+  def remove_item(index)
+    return false if !valid_index?(index)
+    items.delete_at(index)
+    true
+  end
 
+  def purge
+    items.delete_if(&:done)
+  end
 end

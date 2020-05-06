@@ -158,10 +158,9 @@ class TodoBoard
   end
 
   def tooltip
-    puts
+    puts 
     puts "Enter '?' or 'help' for a list of commands"
   end
 end
 
 
-TodoBoard.new.run
